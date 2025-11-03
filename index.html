@@ -782,6 +782,7 @@
             // Split the tagline text
           
                 const infoBtn = document.querySelector('.btn-secondary')
+                let words = document.querySelectorAll(".trusted-logo")
                 let smoother = ScrollSmoother.create({
                     wrapper:'#smooth-wrapper',
                     content:'#smooth-content',
@@ -795,16 +796,16 @@
                 let split2 = SplitText.create(".hero-subtitle", {type:"words"})
                 let split3 = SplitText.create(".hero-subtext",{type:"words"})
                 let split4 = SplitText.create(".trusted-logo", {type:"words"})
+                
          
              gsap.fromTo(split.words, {opacity: 0,filter:'blur(10px)',},{opacity:1,filter:'blur(0px)',duration: 1,stagger: 0.1,delay:0.5,});
              gsap.fromTo(split2.words,{opacity:0,},{opacity:1,duration:1,stagger:0.1})
              gsap.fromTo(split3.words,{opacity:0},{opacity:1,duration:1,stagger:0.1,delay:1.2})
-             gsap.from(split4.words,{opacity:0,
+             gsap.from(split4.words,{opacity:0, stagger:0.2,
                 scrollTrigger: {
                 trigger: split4.words[0].parentElement,
                 start: "top 85%", // adjust this value (higher % = triggers sooner)
                 toggleActions: "play none none none", // only play once when entering
-                markers:true,
             }
              })
              gsap.fromTo(".hero-cta > a",{y:20,opacity:0},{y:0,opacity:1,duration:1,delay:1.5})
