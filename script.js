@@ -160,3 +160,80 @@
             mobileMenu.classList.toggle('active');
             document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
         });
+
+        // Hero Image Slider
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.hero-slider-dots .dot');
+        const prevBtn = document.querySelector('.hero-arrow-prev');
+        const nextBtn = document.querySelector('.hero-arrow-next');
+        let currentSlide = 0;
+        let isAnimating = false;
+
+        function goToSlide(index) {
+            if (isAnimating || index === currentSlide) return;
+            isAnimating = true;
+
+            const oldSlide = slides[currentSlide];
+            const newSlide = slides[index];
+
+            // GSAP animation for smooth transition
+            gsap.to(oldSlide, {
+                opacity:0,
+                ease: "power2.out",
+                duration:0.2
+            });
+
+            gsap.fromTo(newSlide, 
+                { opacity:0 },
+                { 
+                    duration:0.2,
+                    opacity:1,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        oldSlide.classList.remove('active');
+                        newSlide.classList.add('active');
+                        isAnimating = false;
+                    }
+                }
+            );
+
+            // Update dots
+            dots[currentSlide].classList.remove('active');
+            dots[index].classList.add('active');
+
+            currentSlide = index;
+        }
+
+        // Next button
+        nextBtn.addEventListener('click', () => {
+            const nextIndex = (currentSlide + 1) % slides.length;
+            goToSlide(nextIndex);
+        });
+
+        // Previous button
+        prevBtn.addEventListener('click', () => {
+            const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+            goToSlide(prevIndex);
+        });
+
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+        });
+
+        // Auto-play (optional - every 5 seconds)
+        setInterval(() => {
+            const nextIndex = (currentSlide + 1) % slides.length;
+            goToSlide(nextIndex);
+        }, 5000);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            } else if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            }
+        });
