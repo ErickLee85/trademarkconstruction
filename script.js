@@ -154,11 +154,21 @@
         // Mobile menu toggle
         const menuToggle = document.querySelector('.mobile-menu-toggle');
         const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu nav a');
 
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             mobileMenu.classList.toggle('active');
             document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu when clicking a link
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
         });
 
         // Hero Image Slider
@@ -169,25 +179,28 @@
         let currentSlide = 0;
         let isAnimating = false;
 
-        function goToSlide(index) {
+        function goToSlide(index, direction) {
             if (isAnimating || index === currentSlide) return;
             isAnimating = true;
 
             const oldSlide = slides[currentSlide];
             const newSlide = slides[index];
+            let slideClicked = null;
+
+            
 
             // GSAP animation for smooth transition
             gsap.to(oldSlide, {
-                opacity:0,
+                transform:`${direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)'}`,
                 ease: "power2.out",
                 duration:0.2
             });
 
             gsap.fromTo(newSlide, 
-                { opacity:0 },
+                { transform:`${direction === 'left' ? 'translateX(-100%)' : 'translateX(100%)'}` },
                 { 
                     duration:0.2,
-                    opacity:1,
+                    transform:'translateX(0)',
                     ease: "power2.out",
                     onComplete: () => {
                         oldSlide.classList.remove('active');
@@ -207,13 +220,15 @@
         // Next button
         nextBtn.addEventListener('click', () => {
             const nextIndex = (currentSlide + 1) % slides.length;
-            goToSlide(nextIndex);
+            goToSlide(nextIndex, 'right');
+            slideClicked = true;
         });
 
         // Previous button
         prevBtn.addEventListener('click', () => {
             const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
-            goToSlide(prevIndex);
+            goToSlide(prevIndex, 'left');
+            slideClicked = true;
         });
 
         // Dot navigation
@@ -225,6 +240,10 @@
 
         // Auto-play (optional - every 5 seconds)
         setInterval(() => {
+            if(slideClicked) {
+                slideClicked = false
+                return;
+            }
             const nextIndex = (currentSlide + 1) % slides.length;
             goToSlide(nextIndex);
         }, 5000);
