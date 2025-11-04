@@ -184,6 +184,7 @@
         const nextBtn = document.querySelector('.hero-arrow-next');
         let currentSlide = 0;
         let isAnimating = false;
+        let slideClicked = false;
 
         function goToSlide(index, direction) {
             if (isAnimating || index === currentSlide) return;
@@ -191,7 +192,6 @@
 
             const oldSlide = slides[currentSlide];
             const newSlide = slides[index];
-            let slideClicked = null;
 
             
 
