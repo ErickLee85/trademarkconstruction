@@ -15,93 +15,97 @@
                 infoBtn.addEventListener('click',(e) => {
                     smoother.scrollTo(".stats-section", true, "center center")
                 })
-                let split = SplitText.create([".hero-tagline"], { type: "words" });
-                let split2 = SplitText.create(".hero-subtitle", {type:"words"})
-                let split3 = SplitText.create(".hero-subtext",{type:"words"})
-                let split4 = SplitText.create(".trusted-logo", {type:"words"})
-                let split5 = SplitText.create(".stats-content h2", {type:"words"})
-                let split6 = SplitText.create(".stats-content p",{type:"words"})
+               document.fonts.ready.then(() => {
+                        let split = SplitText.create([".hero-tagline"], { type: "words" });
+                        let split2 = SplitText.create(".hero-subtitle", {type:"words"})
+                        let split3 = SplitText.create(".hero-subtext",{type:"words"})
+                        let split4 = SplitText.create(".trusted-logo", {type:"words"})
+                        let split5 = SplitText.create(".stats-content h2", {type:"words"})
+                        let split6 = SplitText.create(".stats-content p",{type:"words"})
+                        
                 
-         
-             gsap.fromTo(split.words, {opacity: 0,filter:'blur(10px)',},{opacity:1,filter:'blur(0px)',duration: 1,stagger: 0.1,delay:0.5,});
-             gsap.fromTo(split2.words,{opacity:0,},{opacity:1,duration:1,stagger:0.1})
-             gsap.fromTo(split3.words,{opacity:0},{opacity:1,duration:1,stagger:0.1,delay:1.2})
-             gsap.fromTo(".stats-image",{opacity:0, width:0},{
-                opacity:1,width:'100%',duration:1.5,scrollTrigger: {
-                        trigger: ".stats-section",
-                        start: "top 50%",
-                        toggleActions: "play none none none",
-                    }})
-             gsap.from(split4.words,{opacity:0, stagger:0.2,
-                scrollTrigger: {
-                trigger: split4.words[0].parentElement,
-                start: "top 85%", // adjust this value (higher % = triggers sooner)
-                toggleActions: "play none none none", // only play once when entering
-            }
-             })
-             gsap.fromTo(".hero-cta > a",{y:20,opacity:0},{y:0,opacity:1,duration:1,delay:1.5})
-             
-             // Stats animation with ScrollTrigger
-             gsap.fromTo(".stat-item",
-                {
-                    x: -50,
-                    opacity: 0,
-                    filter: 'blur(10px)'
-                },
-                {
-                    x: 0,
-                    opacity: 1,
-                    filter: 'blur(0px)',
-                    stagger: 0.2,
-                    duration: 0.8,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: ".stats-section",
-                        start: "top 50%",
-                        toggleActions: "play none none none",
+                    gsap.fromTo(split.words, {opacity: 0,filter:'blur(10px)',},{opacity:1,filter:'blur(0px)',duration: 1,stagger: 0.1,delay:0.5,});
+                    gsap.fromTo(split2.words,{opacity:0,},{opacity:1,duration:1,stagger:0.1})
+                    gsap.fromTo(split3.words,{opacity:0},{opacity:1,duration:1,stagger:0.1,delay:1.2})
+                    gsap.fromTo(".stats-image",{opacity:0, width:0},{
+                        opacity:1,width:'100%',duration:1.5,scrollTrigger: {
+                                trigger: ".stats-section",
+                                start: "top 50%",
+                                toggleActions: "play none none none",
+                            }})
+                    gsap.from(split4.words,{opacity:0, stagger:0.2,
+                        scrollTrigger: {
+                        trigger: split4.words[0].parentElement,
+                        start: "top 85%", // adjust this value (higher % = triggers sooner)
+                        toggleActions: "play none none none", // only play once when entering
                     }
-                }
-             )
+                    })
+                    gsap.fromTo(".hero-cta > a",{y:20,opacity:0},{y:0,opacity:1,duration:1,delay:1.5})
+                    
+                    // Stats animation with ScrollTrigger
+                    gsap.fromTo(".stat-item",
+                        {
+                            x: -50,
+                            opacity: 0,
+                            filter: 'blur(10px)'
+                        },
+                        {
+                            x: 0,
+                            opacity: 1,
+                            filter: 'blur(0px)',
+                            stagger: 0.2,
+                            duration: 0.8,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: ".stats-section",
+                                start: "top 50%",
+                                toggleActions: "play none none none",
+                            }
+                        }
+                    )
+
+                      document.querySelectorAll('.stat-number').forEach((statNumber) => {
+                        const text = statNumber.textContent;
+                        const number = parseInt(text.replace(/\D/g, ''));
+                        const suffix = text.replace(/[0-9]/g, '');
+                        
+                        gsap.fromTo(statNumber, 
+                            { textContent: 0 },
+                            {
+                                textContent: number,
+                                duration: 2,
+                                ease: 'power1.out',
+                                snap: { textContent: 1 },
+                                scrollTrigger: {
+                                    trigger: ".stats-section",
+                                    start: "top 50%",
+                                    toggleActions: "play none none none",
+                                },
+                                onUpdate: function() {
+                                    statNumber.textContent = Math.ceil(statNumber.textContent) + suffix;
+                                }
+                            }
+                        );
+                    });
+                    
+                    gsap.fromTo(split5.words,{opacity:0,filter:'blur(5px)'},{opacity:1,filter:'blur(0px)',duration: 1,stagger: 0.1,delay:0.5,
+                        scrollTrigger: {
+                                trigger: ".stats-section",
+                                start: "top 50%",
+                                toggleActions: "play none none none",
+                        }
+                    })
+                    gsap.fromTo(split6.words,{opacity:0},{opacity:1,duration:1,stagger:0.1,delay:1.2,
+                        scrollTrigger: {
+                                trigger: ".stats-section",
+                                start: "top 50%",
+                                toggleActions: "play none none none",
+                        }
+                    })
+               })
 
              // Number counter animation
-             document.querySelectorAll('.stat-number').forEach((statNumber) => {
-                 const text = statNumber.textContent;
-                 const number = parseInt(text.replace(/\D/g, ''));
-                 const suffix = text.replace(/[0-9]/g, '');
-                 
-                 gsap.fromTo(statNumber, 
-                     { textContent: 0 },
-                     {
-                         textContent: number,
-                         duration: 2,
-                         ease: 'power1.out',
-                         snap: { textContent: 1 },
-                         scrollTrigger: {
-                             trigger: ".stats-section",
-                             start: "top 50%",
-                             toggleActions: "play none none none",
-                         },
-                         onUpdate: function() {
-                             statNumber.textContent = Math.ceil(statNumber.textContent) + suffix;
-                         }
-                     }
-                 );
-             });
-             
-             gsap.fromTo(split5.words,{opacity:0,filter:'blur(5px)'},{opacity:1,filter:'blur(0px)',duration: 1,stagger: 0.1,delay:0.5,
-                scrollTrigger: {
-                        trigger: ".stats-section",
-                        start: "top 50%",
-                        toggleActions: "play none none none",
-                }
-             })
-              gsap.fromTo(split6.words,{opacity:0},{opacity:1,duration:1,stagger:0.1,delay:1.2,
-                scrollTrigger: {
-                        trigger: ".stats-section",
-                        start: "top 50%",
-                        toggleActions: "play none none none",
-                }
-             })
+           
             
             
 
