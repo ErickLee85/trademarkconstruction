@@ -26,6 +26,12 @@
              gsap.fromTo(split.words, {opacity: 0,filter:'blur(10px)',},{opacity:1,filter:'blur(0px)',duration: 1,stagger: 0.1,delay:0.5,});
              gsap.fromTo(split2.words,{opacity:0,},{opacity:1,duration:1,stagger:0.1})
              gsap.fromTo(split3.words,{opacity:0},{opacity:1,duration:1,stagger:0.1,delay:1.2})
+             gsap.fromTo(".stats-image",{opacity:0, width:0},{
+                opacity:1,width:'100%',duration:1.5,scrollTrigger: {
+                        trigger: ".stats-section",
+                        start: "top 50%",
+                        toggleActions: "play none none none",
+                    }})
              gsap.from(split4.words,{opacity:0, stagger:0.2,
                 scrollTrigger: {
                 trigger: split4.words[0].parentElement,
